@@ -1,0 +1,17 @@
+/* Add this to your existing Hero.css */
+.featured-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 2rem;
+}
+
+.category-tag {
+  background: rgba(56, 161, 105, 0.1);
+  color: #2f855a;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: 1px solid rgba(56, 161, 105, 0.2);
+}
