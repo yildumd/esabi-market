@@ -6,6 +6,7 @@
     <title>E-Sabi Market - Supermarket Quality at Market Prices</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Global Styles */
         * {
             margin: 0;
             padding: 0;
@@ -27,9 +28,83 @@
             background-color: #f8f9fa;
             color: var(--dark);
             line-height: 1.6;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--dark);
+            position: relative;
+        }
+
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--primary);
+            margin: 0.5rem auto;
+            border-radius: 2px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(56, 161, 105, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
 
         /* Header Styles */
@@ -43,14 +118,7 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-        }
-
-        .header-content {
+        .header-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -60,6 +128,7 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            cursor: pointer;
         }
 
         .logo h1 {
@@ -82,25 +151,54 @@
             text-decoration: none;
             font-weight: 500;
             transition: opacity 0.3s ease;
+            padding: 0.5rem 0;
+            position: relative;
         }
 
         .nav a:hover {
             opacity: 0.8;
         }
 
-        .cta-button {
-            background: white;
-            color: var(--primary);
-            border: none;
-            padding: 0.6rem 1.5rem;
-            border-radius: 25px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s ease;
+        .nav a.active {
+            font-weight: 700;
         }
 
-        .cta-button:hover {
-            transform: translateY(-2px);
+        .nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: white;
+            border-radius: 2px;
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--secondary);
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 700;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .menu-toggle {
@@ -110,170 +208,146 @@
             color: white;
             font-size: 1.5rem;
             cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 4px;
+            transition: background 0.2s ease;
+        }
+
+        /* Page Styles */
+        .page {
+            display: none;
+            padding: 100px 0 60px;
+            min-height: 80vh;
+        }
+
+        .page.active {
+            display: block;
         }
 
         /* Hero Section */
-        .hero {
-            display: flex;
-            align-items: center;
-            min-height: 85vh;
-            padding: 2rem 0;
-            background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), 
-                        url('https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80') center/cover;
+        #home-page {
+            background: linear-gradient(135deg, #f0fff4 0%, #e6fffa 100%);
+            position: relative;
+            overflow: hidden;
         }
 
         .hero-content {
-            flex: 1;
-            max-width: 600px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            margin-bottom: 60px;
         }
 
-        .hero-content h2 {
-            font-size: 3rem;
+        .hero-text h1 {
+            font-size: 3.5rem;
             font-weight: 800;
-            color: var(--dark);
-            margin-bottom: 1.5rem;
+            color: #2d3748;
+            margin-bottom: 20px;
             line-height: 1.2;
         }
 
-        .hero-content p {
+        .highlight {
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero-text p {
             font-size: 1.2rem;
             color: var(--gray);
-            margin-bottom: 2rem;
+            margin-bottom: 30px;
             line-height: 1.6;
         }
 
         .hero-buttons {
             display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
+            gap: 15px;
+            margin-bottom: 40px;
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        .stats-container {
             display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            gap: 30px;
         }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(56, 161, 105, 0.3);
+        .stat {
+            text-align: center;
         }
 
-        .btn-secondary {
-            background: transparent;
+        .stat-number {
+            display: block;
+            font-size: 2rem;
+            font-weight: 700;
             color: var(--primary);
-            border: 2px solid var(--primary);
-            padding: 1rem 2rem;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
         }
 
-        .btn-secondary:hover {
-            background: var(--primary);
-            color: white;
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .hero-image {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .main-image {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, #c6f6d5 0%, #b2f5ea 100%);
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .shopping-cart {
+            font-size: 6rem;
+            animation: float 3s ease-in-out infinite;
         }
 
         .featured-categories {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
+            text-align: center;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
         }
 
         .category-tag {
-            background: rgba(56, 161, 105, 0.1);
-            color: var(--primary-dark);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            border: 1px solid rgba(56, 161, 105, 0.2);
-        }
-
-        /* Features Section */
-        .features {
-            padding: 5rem 0;
             background: white;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: var(--dark);
-            position: relative;
-        }
-
-        .section-title:after {
-            content: '';
-            display: block;
-            width: 60px;
-            height: 4px;
-            background: var(--primary);
-            margin: 0.5rem auto;
-            border-radius: 2px;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .feature-card {
-            background: var(--light);
-            padding: 2rem;
+            padding: 15px;
             border-radius: 12px;
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .feature-card:hover {
+        .category-tag:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
 
-        .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--primary);
-        }
-
-        .feature-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-            color: var(--primary-dark);
-        }
-
-        .feature-card p {
-            color: var(--gray);
-            line-height: 1.6;
+        .category-icon {
+            font-size: 2rem;
         }
 
         /* Products Section */
-        .products {
-            padding: 5rem 0;
-            background: #f8f9fa;
-        }
-
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
         }
 
@@ -309,6 +383,12 @@
             color: var(--dark);
         }
 
+        .vendor {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
         .price-section {
             display: flex;
             align-items: center;
@@ -335,6 +415,10 @@
             font-size: 0.9rem;
         }
 
+        .rating {
+            margin-bottom: 1rem;
+        }
+
         .add-to-cart {
             background: var(--primary);
             color: white;
@@ -355,12 +439,202 @@
             background: var(--primary-dark);
         }
 
+        /* How It Works Section */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .step {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .step-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+        }
+
+        .step h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--primary-dark);
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Auth Forms */
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 60vh;
+            padding: 2rem 0;
+        }
+
+        .auth-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .auth-card h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #4a5568;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .auth-button {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .auth-button:hover {
+            background: var(--primary-dark);
+        }
+
+        .auth-switch {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--gray);
+        }
+
+        .auth-switch a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .auth-switch a:hover {
+            text-decoration: underline;
+        }
+
+        /* Vendor Dashboard */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .dashboard-card h3 {
+            color: var(--gray);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-card .value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* Product Form */
+        .product-form {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
         /* Footer */
         footer {
             background: var(--dark);
             color: white;
             padding: 3rem 0 1.5rem;
-            margin-top: auto;
         }
 
         .footer-content {
@@ -427,72 +701,103 @@
             font-size: 0.9rem;
         }
 
-        /* Mobile Responsiveness */
-        @media (max-width: 768px) {
-            .menu-toggle {
-                display: block;
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            .hero-content,
+            .about-content {
+                grid-template-columns: 1fr;
+                text-align: center;
             }
-
+            
+            .hero-text h1 {
+                font-size: 2.8rem;
+            }
+            
+            .stats-container {
+                justify-content: center;
+            }
+            
+            .hero-buttons {
+                justify-content: center;
+            }
+            
+            .main-image {
+                width: 300px;
+                height: 300px;
+            }
+            
+            .shopping-cart {
+                font-size: 4rem;
+            }
+            
             .nav {
                 position: fixed;
                 top: 70px;
                 left: 0;
                 right: 0;
-                background: var(--primary-dark);
+                background: rgba(47, 133, 90, 0.98);
+                backdrop-filter: blur(10px);
                 flex-direction: column;
                 padding: 1rem;
                 transform: translateY(-100%);
                 opacity: 0;
                 visibility: hidden;
                 transition: all 0.3s ease;
+                gap: 0;
             }
-
-            .nav-active {
+            
+            .nav-open {
                 transform: translateY(0);
                 opacity: 1;
                 visibility: visible;
             }
-
-            .hero {
-                flex-direction: column;
+            
+            .nav a {
+                width: 100%;
                 text-align: center;
-                padding: 2rem 0;
+                padding: 1rem;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             }
-
-            .hero-content h2 {
-                font-size: 2.2rem;
+            
+            .nav a:last-child {
+                border-bottom: none;
             }
-
-            .hero-buttons {
-                justify-content: center;
-                flex-wrap: wrap;
+            
+            .menu-toggle {
+                display: block;
             }
-
-            .features, .products {
-                padding: 3rem 0;
-            }
-
-            .section-title {
-                font-size: 2rem;
-            }
-
-            .footer-content {
+            
+            .form-row {
                 grid-template-columns: 1fr;
             }
         }
 
-        @media (max-width: 480px) {
-            .logo h1 {
-                font-size: 1.5rem;
+        @media (max-width: 640px) {
+            .section-title {
+                font-size: 2rem;
             }
-
-            .hero-content h2 {
-                font-size: 1.8rem;
+            
+            .hero-text h1 {
+                font-size: 2.2rem;
             }
+            
+            .hero-buttons {
+                flex-direction: column;
+            }
+            
+            .stats-container {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
 
-            .btn-primary, .btn-secondary {
-                padding: 0.8rem 1.5rem;
-                font-size: 1rem;
+        /* Animations */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
             }
         }
     </style>
@@ -500,139 +805,387 @@
 <body>
     <!-- Header -->
     <header>
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <div class="logo-icon">🛒</div>
-                    <h1>E-Sabi Market</h1>
-                </div>
-                
-                <nav class="nav" id="mainNav">
-                    <a href="#home">Home</a>
-                    <a href="#products">Products</a>
-                    <a href="#how-it-works">How It Works</a>
-                    <a href="#about">About</a>
-                    <button class="cta-button">Vendor Login</button>
-                </nav>
-
-                <button class="menu-toggle" id="menuToggle">
-                    ☰
-                </button>
+        <div class="container header-container">
+            <div class="logo" onclick="showPage('home-page')">
+                <div class="logo-icon">🛒</div>
+                <h1>E-Sabi Market</h1>
             </div>
+            
+            <nav class="nav" id="mainNav">
+                <a href="#" class="nav-link active" data-page="home-page">Home</a>
+                <a href="#" class="nav-link" data-page="products-page">Products</a>
+                <a href="#" class="nav-link" data-page="how-it-works-page">How It Works</a>
+                <a href="#" class="nav-link" data-page="about-page">About</a>
+                <a href="#" class="nav-link" data-page="vendor-dashboard-page" id="vendor-dashboard-link" style="display: none;">Vendor Dashboard</a>
+            </nav>
+
+            <div class="user-actions">
+                <div class="cart-icon" onclick="showPage('cart-page')">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">3</span>
+                </div>
+                <button class="btn-secondary" id="auth-button" onclick="showPage('login-page')">Login</button>
+            </div>
+
+            <button class="menu-toggle" id="menuToggle">
+                ☰
+            </button>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
+    <!-- Home Page -->
+    <section id="home-page" class="page active">
         <div class="container">
             <div class="hero-content">
-                <h2>Supermarket Quality at Market Prices</h2>
-                <p>Get all your groceries and household essentials delivered directly from Nigeria's vibrant open markets to your doorstep. Save money without sacrificing convenience.</p>
-                <div class="hero-buttons">
-                    <button class="btn-primary"><i class="fas fa-shopping-cart"></i> Shop Now</button>
-                    <button class="btn-secondary"><i class="fas fa-store"></i> Become a Vendor</button>
+                <div class="hero-text">
+                    <h1>Supermarket Quality at <span class="highlight">Market Prices</span></h1>
+                    <p>Get all your groceries and household essentials delivered directly from Nigeria's vibrant open markets to your doorstep. Save money without sacrificing convenience.</p>
+                    
+                    <div class="hero-buttons">
+                        <button class="btn-primary" onclick="showPage('products-page')">
+                            <i class="fas fa-shopping-cart"></i>
+                            Shop Groceries
+                        </button>
+                        <button class="btn-secondary" onclick="showPage('vendor-register-page')">
+                            <i class="fas fa-store"></i>
+                            Become a Vendor
+                        </button>
+                    </div>
+                    
+                    <div class="stats-container">
+                        <div class="stat">
+                            <span class="stat-number">500+</span>
+                            <span class="stat-label">Vendors</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">10,000+</span>
+                            <span class="stat-label">Products</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">24/7</span>
+                            <span class="stat-label">Delivery</span>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="featured-categories">
-                    <span class="category-tag">🍚 Rice & Grains</span>
-                    <span class="category-tag">🛒 Packaged Goods</span>
-                    <span class="category-tag">🧴 Household Items</span>
-                    <span class="category-tag">🥫 Canned Foods</span>
-                    <span class="category-tag">🧼 Toiletries</span>
-                    <span class="category-tag">🍶 Cooking Essentials</span>
+                <div class="hero-image">
+                    <div class="main-image">
+                        <div class="shopping-cart">🛒</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="featured-categories">
+                <h3>Popular Categories</h3>
+                <div class="categories-grid">
+                    <div class="category-tag" onclick="filterProducts('Rice & Grains')">
+                        <span class="category-icon">🍚</span>
+                        <span class="category-name">Rice & Grains</span>
+                    </div>
+                    <div class="category-tag" onclick="filterProducts('Packaged Goods')">
+                        <span class="category-icon">🛒</span>
+                        <span class="category-name">Packaged Goods</span>
+                    </div>
+                    <div class="category-tag" onclick="filterProducts('Household Items')">
+                        <span class="category-icon">🧴</span>
+                        <span class="category-name">Household Items</span>
+                    </div>
+                    <div class="category-tag" onclick="filterProducts('Canned Foods')">
+                        <span class="category-icon">🥫</span>
+                        <span class="category-name">Canned Foods</span>
+                    </div>
+                    <div class="category-tag" onclick="filterProducts('Toiletries')">
+                        <span class="category-icon">🧼</span>
+                        <span class="category-name">Toiletries</span>
+                    </div>
+                    <div class="category-tag" onclick="filterProducts('Cooking Essentials')">
+                        <span class="category-icon">🍶</span>
+                        <span class="category-name">Cooking Essentials</span>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section class="features">
+    <!-- Products Page -->
+    <section id="products-page" class="page">
         <div class="container">
-            <h2 class="section-title">Why Choose E-Sabi Market?</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">💰</div>
-                    <h3>Market Prices</h3>
-                    <p>Get the same low prices as traditional markets without the hassle of haggling or transportation.</p>
+            <h2 class="section-title">Our Products</h2>
+            <div class="products-grid" id="products-container">
+                <!-- Products will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Page -->
+    <section id="how-it-works-page" class="page">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Browse Products</h3>
+                    <p>Explore a wide range of groceries and household items from trusted vendors.</p>
                 </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">🛒</div>
-                    <h3>Wide Selection</h3>
-                    <p>Everything from rice and beans to detergent and cooking oil - all your supermarket needs in one place.</p>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Place Your Order</h3>
+                    <p>Add items to your cart and proceed to checkout with secure payment options.</p>
                 </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">🚚</div>
-                    <h3>Direct Delivery</h3>
-                    <p>From the market stalls directly to your home. Fresh, authentic, and convenient.</p>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Fast Delivery</h3>
+                    <p>Receive your order at your doorstep with our reliable delivery network.</p>
                 </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">🤝</div>
-                    <h3>Trusted Vendors</h3>
-                    <p>All our vendors are verified and rated by the community for quality and reliability.</p>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Enjoy Savings</h3>
+                    <p>Save money while enjoying quality products from local markets.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Products Section -->
-    <section class="products" id="products">
+    <!-- About Page -->
+    <section id="about-page" class="page">
         <div class="container">
-            <h2 class="section-title">Popular Market Deals</h2>
-            <div class="products-grid">
-                <div class="product-card">
-                    <div class="product-image">🍚</div>
-                    <div class="product-info">
-                        <h3>Premium Rice (50kg)</h3>
-                        <div class="price-section">
-                            <span class="current-price">₦35,000</span>
-                            <span class="original-price">₦38,000</span>
-                        </div>
-                        <div class="savings">Save ₦3,000</div>
-                        <button class="add-to-cart"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+            <h2 class="section-title">About E-Sabi Market</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Connecting Traditional Markets to Modern Consumers</h2>
+                    <p>E-Sabi Market is a digital platform designed to bridge the gap between traditional open markets and the modern digital economy. We bring the vibrant experience of Nigerian open markets to your fingertips.</p>
+                    <p>Our mission is to empower local vendors while providing customers with unprecedented access to fresh, affordable produce from the comfort of their homes.</p>
+                    <div class="hero-buttons">
+                        <button class="btn-primary" onclick="showPage('vendor-register-page')">Join as Vendor</button>
                     </div>
                 </div>
-                
-                <div class="product-card">
-                    <div class="product-image">🫒</div>
-                    <div class="product-info">
-                        <h3>Groundnut Oil (5L)</h3>
-                        <div class="price-section">
-                            <span class="current-price">₦8,500</span>
-                            <span class="original-price">₦9,200</span>
+                <div class="about-image">
+                    <div class="card" style="padding: 0; overflow: hidden;">
+                        <div style="background: linear-gradient(135deg, #c6f6d5 0%, #b2f5ea 100%); height: 300px; display: flex; align-items: center; justify-content: center; font-size: 5rem;">🛒</div>
+                        <div style="padding: 1.5rem;">
+                            <h3>Our Vision</h3>
+                            <p>To revolutionize how Nigerians access market goods while supporting local vendors and reducing food waste.</p>
                         </div>
-                        <div class="savings">Save ₦700</div>
-                        <button class="add-to-cart"><i class="fas fa-cart-plus"></i> Add to Cart</button>
                     </div>
                 </div>
-                
-                <div class="product-card">
-                    <div class="product-image">🧴</div>
-                    <div class="product-info">
-                        <h3>Detergent (Large)</h3>
-                        <div class="price-section">
-                            <span class="current-price">₦4,200</span>
-                            <span class="original-price">₦4,800</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Page -->
+    <section id="login-page" class="page">
+        <div class="container">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <h2>Login to E-Sabi Market</h2>
+                    <form id="login-form">
+                        <div class="form-group">
+                            <label for="login-email">Email</label>
+                            <input type="email" id="login-email" required>
                         </div>
-                        <div class="savings">Save ₦600</div>
-                        <button class="add-to-cart"><i class="fas fa-cart-plus"></i> Add to Cart</button>
-                    </div>
-                </div>
-                
-                <div class="product-card">
-                    <div class="product-image">🥫</div>
-                    <div class="product-info">
-                        <h3>Tomato Paste (Crate)</h3>
-                        <div class="price-section">
-                            <span class="current-price">₦12,000</span>
-                            <span class="original-price">₦13,500</span>
+                        <div class="form-group">
+                            <label for="login-password">Password</label>
+                            <input type="password" id="login-password" required>
                         </div>
-                        <div class="savings">Save ₦1,500</div>
-                        <button class="add-to-cart"><i class="fas fa-cart-plus"></i> Add to Cart</button>
-                    </div>
+                        <button type="submit" class="auth-button">Login</button>
+                    </form>
+                    <p class="auth-switch">
+                        Don't have an account? <a href="#" onclick="showPage('register-page')">Register here</a>
+                    </p>
+                    <p class="auth-switch">
+                        Are you a vendor? <a href="#" onclick="showPage('vendor-login-page')">Vendor login here</a>
+                    </p>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Register Page -->
+    <section id="register-page" class="page">
+        <div class="container">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <h2>Create Account</h2>
+                    <form id="register-form">
+                        <div class="form-group">
+                            <label for="register-name">Full Name</label>
+                            <input type="text" id="register-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-email">Email</label>
+                            <input type="email" id="register-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-password">Password</label>
+                            <input type="password" id="register-password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-phone">Phone Number</label>
+                            <input type="tel" id="register-phone" required>
+                        </div>
+                        <button type="submit" class="auth-button">Register</button>
+                    </form>
+                    <p class="auth-switch">
+                        Already have an account? <a href="#" onclick="showPage('login-page')">Login here</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vendor Login Page -->
+    <section id="vendor-login-page" class="page">
+        <div class="container">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <h2>Vendor Login</h2>
+                    <form id="vendor-login-form">
+                        <div class="form-group">
+                            <label for="vendor-login-email">Email</label>
+                            <input type="email" id="vendor-login-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="vendor-login-password">Password</label>
+                            <input type="password" id="vendor-login-password" required>
+                        </div>
+                        <button type="submit" class="auth-button">Login as Vendor</button>
+                    </form>
+                    <p class="auth-switch">
+                        Not a vendor yet? <a href="#" onclick="showPage('vendor-register-page')">Register your business here</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vendor Register Page -->
+    <section id="vendor-register-page" class="page">
+        <div class="container">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <h2>Register Your Business</h2>
+                    <form id="vendor-register-form">
+                        <div class="form-group">
+                            <label for="vendor-business-name">Business Name</label>
+                            <input type="text" id="vendor-business-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="vendor-email">Email</label>
+                            <input type="email" id="vendor-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="vendor-password">Password</label>
+                            <input type="password" id="vendor-password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="vendor-phone">Phone Number</label>
+                            <input type="tel" id="vendor-phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="vendor-address">Business Address</label>
+                            <textarea id="vendor-address" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="vendor-category">Business Category</label>
+                            <select id="vendor-category" required>
+                                <option value="">Select category</option>
+                                <option value="Rice & Grains">Rice & Grains</option>
+                                <option value="Packaged Goods">Packaged Goods</option>
+                                <option value="Household Items">Household Items</option>
+                                <option value="Canned Foods">Canned Foods</option>
+                                <option value="Toiletries">Toiletries</option>
+                                <option value="Cooking Essentials">Cooking Essentials</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="auth-button">Register Business</button>
+                    </form>
+                    <p class="auth-switch">
+                        Already have a vendor account? <a href="#" onclick="showPage('vendor-login-page')">Login here</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vendor Dashboard Page -->
+    <section id="vendor-dashboard-page" class="page">
+        <div class="container">
+            <div class="dashboard-header">
+                <h2>Vendor Dashboard</h2>
+                <button class="btn-primary" onclick="showPage('vendor-add-product-page')">
+                    <i class="fas fa-plus"></i>
+                    Add New Product
+                </button>
+            </div>
+            
+            <div class="dashboard-cards">
+                <div class="dashboard-card">
+                    <h3>Total Products</h3>
+                    <div class="value" id="vendor-product-count">0</div>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Orders Today</h3>
+                    <div class="value">0</div>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Total Revenue</h3>
+                    <div class="value">₦0</div>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Customer Rating</h3>
+                    <div class="value">0/5</div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>Your Products</h3>
+                <div class="products-grid" id="vendor-products-container">
+                    <!-- Vendor's products will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vendor Add Product Page -->
+    <section id="vendor-add-product-page" class="page">
+        <div class="container">
+            <div class="product-form">
+                <h2 class="form-title">Add New Product</h2>
+                <form id="add-product-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="product-name">Product Name</label>
+                            <input type="text" id="product-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-price">Price (₦)</label>
+                            <input type="number" id="product-price" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="product-category">Category</label>
+                            <select id="product-category" required>
+                                <option value="">Select category</option>
+                                <option value="Rice & Grains">Rice & Grains</option>
+                                <option value="Packaged Goods">Packaged Goods</option>
+                                <option value="Household Items">Household Items</option>
+                                <option value="Canned Foods">Canned Foods</option>
+                                <option value="Toiletries">Toiletries</option>
+                                <option value="Cooking Essentials">Cooking Essentials</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-emoji">Product Emoji</label>
+                            <input type="text" id="product-emoji" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-description">Description</label>
+                        <textarea id="product-description" required></textarea>
+                    </div>
+                    <button type="submit" class="auth-button">Add Product</button>
+                </form>
             </div>
         </div>
     </section>
@@ -654,10 +1207,10 @@
                 
                 <div class="footer-column">
                     <h3>Quick Links</h3>
-                    <a href="#home">Home</a>
-                    <a href="#products">Products</a>
-                    <a href="#how-it-works">How It Works</a>
-                    <a href="#about">About Us</a>
+                    <a href="#" class="nav-link" data-page="home-page">Home</a>
+                    <a href="#" class="nav-link" data-page="products-page">Products</a>
+                    <a href="#" class="nav-link" data-page="how-it-works-page">How It Works</a>
+                    <a href="#" class="nav-link" data-page="about-page">About</a>
                 </div>
                 
                 <div class="footer-column">
@@ -675,21 +1228,265 @@
     </footer>
 
     <script>
-        // Mobile menu toggle
+        // Sample product data
+        const products = [
+            {
+                id: 1,
+                name: "Premium Rice (50kg)",
+                price: 35000,
+                marketPrice: 38000,
+                category: "Rice & Grains",
+                vendor: "Obi Farms",
+                rating: 4.5,
+                image: "🍚",
+                description: "High quality long grain rice"
+            },
+            {
+                id: 2,
+                name: "Groundnut Oil (5L)",
+                price: 8500,
+                marketPrice: 9200,
+                category: "Cooking Essentials",
+                vendor: "Natural Oils",
+                rating: 4.2,
+                image: "🫒",
+                description: "Pure groundnut oil for cooking"
+            },
+            {
+                id: 3,
+                name: "Detergent (Large)",
+                price: 4200,
+                marketPrice: 4800,
+                category: "Household Items",
+                vendor: "Clean Home",
+                rating: 4.3,
+                image: "🧴",
+                description: "Powerful detergent for all your cleaning needs"
+            },
+            {
+                id: 4,
+                name: "Tomato Paste (Crate)",
+                price: 12000,
+                marketPrice: 13500,
+                category: "Canned Foods",
+                vendor: "Fresh Foods",
+                rating: 4.7,
+                image: "🥫",
+                description: "Rich tomato paste for delicious meals"
+            },
+            {
+                id: 5,
+                name: "Bath Soap (Pack of 10)",
+                price: 2500,
+                marketPrice: 3000,
+                category: "Toiletries",
+                vendor: "Clean Body",
+                rating: 4.1,
+                image: "🧼",
+                description: "Gentle on skin soap for daily use"
+            },
+            {
+                id: 6,
+                name: "Spaghetti (Carton)",
+                price: 8500,
+                marketPrice: 9500,
+                category: "Packaged Goods",
+                vendor: "Pasta King",
+                rating: 4.4,
+                image: "🍝",
+                description: "Quality spaghetti for your favorite dishes"
+            }
+        ];
+
+        // Vendor products (initially empty)
+        let vendorProducts = [];
+
+        // DOM Elements
+        const pages = document.querySelectorAll('.page');
+        const navLinks = document.querySelectorAll('.nav-link');
         const menuToggle = document.getElementById('menuToggle');
         const mainNav = document.getElementById('mainNav');
-        
-        menuToggle.addEventListener('click', () => {
-            mainNav.classList.toggle('nav-active');
-        });
-        
-        // Close menu when clicking on a link
-        const navLinks = document.querySelectorAll('.nav a');
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mainNav.classList.remove('nav-active');
+        const productsContainer = document.getElementById('products-container');
+        const vendorProductsContainer = document.getElementById('vendor-products-container');
+        const vendorProductCount = document.getElementById('vendor-product-count');
+        const authButton = document.getElementById('auth-button');
+        const vendorDashboardLink = document.getElementById('vendor-dashboard-link');
+
+        // Show specific page and hide others
+        function showPage(pageId) {
+            pages.forEach(page => {
+                page.classList.remove('active');
             });
-        });
+            document.getElementById(pageId).classList.add('active');
+            
+            // Update active nav link
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.dataset.page === pageId) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // If showing products page, render products
+            if (pageId === 'products-page') {
+                renderProducts(products);
+            }
+            
+            // If showing vendor dashboard, render vendor products
+            if (pageId === 'vendor-dashboard-page') {
+                renderVendorProducts();
+            }
+            
+            // Close mobile menu if open
+            mainNav.classList.remove('nav-open');
+        }
+
+        // Render products to the products page
+        function renderProducts(productsArray) {
+            productsContainer.innerHTML = '';
+            
+            if (productsArray.length === 0) {
+                productsContainer.innerHTML = '<p class="text-center">No products found in this category.</p>';
+                return;
+            }
+            
+            productsArray.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `
+                    <div class="product-image">${product.image}</div>
+                    <div class="product-info">
+                        <h3>${product.name}</h3>
+                        <p class="vendor">By ${product.vendor}</p>
+                        <div class="price-section">
+                            <span class="current-price">₦${product.price.toLocaleString()}</span>
+                            <span class="original-price">₦${product.marketPrice.toLocaleString()}</span>
+                        </div>
+                        <div class="savings">Save ₦${(product.marketPrice - product.price).toLocaleString()}</div>
+                        <div class="rating">${'⭐'.repeat(Math.floor(product.rating))}${product.rating % 1 ? '½' : ''}</div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-cart-plus"></i>
+                            Add to Cart
+                        </button>
+                    </div>
+                `;
+                productsContainer.appendChild(productCard);
+            });
+        }
+
+        // Render vendor products to the vendor dashboard
+        function renderVendorProducts() {
+            vendorProductsContainer.innerHTML = '';
+            vendorProductCount.textContent = vendorProducts.length;
+            
+            if (vendorProducts.length === 0) {
+                vendorProductsContainer.innerHTML = '<p class="text-center">You haven\'t added any products yet.</p>';
+                return;
+            }
+            
+            vendorProducts.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `
+                    <div class="product-image">${product.image}</div>
+                    <div class="product-info">
+                        <h3>${product.name}</h3>
+                        <p class="vendor">Category: ${product.category}</p>
+                        <div class="price-section">
+                            <span class="current-price">₦${product.price.toLocaleString()}</span>
+                        </div>
+                        <div class="rating">${'⭐'.repeat(Math.floor(product.rating))}${product.rating % 1 ? '½' : ''}</div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-edit"></i>
+                            Edit Product
+                        </button>
+                    </div>
+                `;
+                vendorProductsContainer.appendChild(productCard);
+            });
+        }
+
+        // Filter products by category
+        function filterProducts(category) {
+            const filteredProducts = products.filter(product => product.category === category);
+            showPage('products-page');
+            renderProducts(filteredProducts);
+        }
+
+        // Initialize the page
+        function init() {
+            // Set up event listeners
+            menuToggle.addEventListener('click', () => {
+                mainNav.classList.toggle('nav-open');
+            });
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showPage(link.dataset.page);
+                });
+            });
+            
+            // Login form submission
+            document.getElementById('login-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('Login functionality would be implemented here!');
+                showPage('home-page');
+            });
+            
+            // Register form submission
+            document.getElementById('register-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('Registration functionality would be implemented here!');
+                showPage('home-page');
+            });
+            
+            // Vendor login form submission
+            document.getElementById('vendor-login-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                // Simulate successful login
+                authButton.textContent = 'Logout';
+                vendorDashboardLink.style.display = 'block';
+                showPage('vendor-dashboard-page');
+            });
+            
+            // Vendor registration form submission
+            document.getElementById('vendor-register-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('Vendor registration would be implemented here!');
+                showPage('vendor-login-page');
+            });
+            
+            // Add product form submission
+            document.getElementById('add-product-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const newProduct = {
+                    id: vendorProducts.length + 1,
+                    name: document.getElementById('product-name').value,
+                    price: parseInt(document.getElementById('product-price').value),
+                    category: document.getElementById('product-category').value,
+                    image: document.getElementById('product-emoji').value,
+                    description: document.getElementById('product-description').value,
+                    vendor: "Your Business",
+                    rating: 4.5,
+                    marketPrice: parseInt(document.getElementById('product-price').value) * 1.1
+                };
+                
+                vendorProducts.push(newProduct);
+                products.push(newProduct);
+                
+                alert('Product added successfully!');
+                document.getElementById('add-product-form').reset();
+                showPage('vendor-dashboard-page');
+            });
+            
+            // Show home page by default
+            showPage('home-page');
+        }
+
+        // Run initialization when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>

@@ -1,11 +1,21 @@
+/* Header.css */
 .header {
   background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
   color: white;
   padding: 1rem 0;
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 1000;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.header.scrolled {
+  padding: 0.5rem 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: rgba(56, 161, 105, 0.95);
+  backdrop-filter: blur(10px);
 }
 
 .header .container {
@@ -17,6 +27,22 @@
   padding: 0 2rem;
 }
 
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.logo:hover {
+  transform: scale(1.02);
+}
+
+.logo-icon {
+  font-size: 2rem;
+}
+
 .logo h1 {
   margin: 0;
   font-size: 1.8rem;
@@ -26,33 +52,52 @@
 .nav {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
 .nav a {
   color: white;
   text-decoration: none;
   font-weight: 500;
-  transition: opacity 0.3s ease;
+  transition: all 0.3s ease;
+  padding: 0.5rem 0;
+  position: relative;
 }
 
 .nav a:hover {
-  opacity: 0.8;
+  opacity: 0.9;
+}
+
+.nav a.active {
+  font-weight: 700;
+}
+
+.nav a.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: white;
+  border-radius: 2px;
 }
 
 .cta-button {
   background: white;
   color: #38a169;
   border: none;
-  padding: 0.5rem 1.5rem;
+  padding: 0.6rem 1.5rem;
   border-radius: 25px;
   font-weight: 600;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: all 0.2s ease;
+  margin-left: 1rem;
 }
 
 .cta-button:hover {
   transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .menu-toggle {
@@ -62,30 +107,70 @@
   color: white;
   font-size: 1.5rem;
   cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background 0.2s ease;
 }
 
+.menu-toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Mobile Responsiveness */
 @media (max-width: 768px) {
+  .header .container {
+    padding: 0 1rem;
+  }
+
   .menu-toggle {
     display: block;
   }
 
   .nav {
-    position: absolute;
-    top: 100%;
+    position: fixed;
+    top: 70px;
     left: 0;
     right: 0;
-    background: #2f855a;
+    background: rgba(47, 133, 90, 0.98);
+    backdrop-filter: blur(10px);
     flex-direction: column;
     padding: 1rem;
     transform: translateY(-100%);
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
+    gap: 0;
   }
 
   .nav-open {
     transform: translateY(0);
     opacity: 1;
     visibility: visible;
+  }
+
+  .nav a {
+    width: 100%;
+    text-align: center;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .nav a:last-child {
+    border-bottom: none;
+  }
+
+  .cta-button {
+    margin: 1rem 0 0 0;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo h1 {
+    font-size: 1.5rem;
+  }
+  
+  .logo-icon {
+    font-size: 1.5rem;
   }
 }
