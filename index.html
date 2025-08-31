@@ -5,19 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-Sabi Market - Supermarket Quality at Market Prices</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* Global Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
 
         :root {
             --primary: #38a169;
             --primary-dark: #2f855a;
             --secondary: #f56565;
+            --accent: #d69e2e;
             --light: #f7fafc;
             --dark: #2d3748;
             --gray: #718096;
@@ -28,6 +30,7 @@
             background-color: #f8f9fa;
             color: var(--dark);
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
         .container {
@@ -54,44 +57,51 @@
             border-radius: 2px;
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            border: none;
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
             padding: 1rem 2rem;
             border-radius: 8px;
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 12px rgba(56, 161, 105, 0.3);
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(56, 161, 105, 0.3);
+            box-shadow: 0 6px 16px rgba(56, 161, 105, 0.4);
         }
 
         .btn-secondary {
             background: transparent;
             color: var(--primary);
             border: 2px solid var(--primary);
-            padding: 1rem 2rem;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
         }
 
         .btn-secondary:hover {
             background: var(--primary);
             color: white;
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            color: white;
+            border: none;
+        }
+
+        .btn-accent:hover {
+            background: #b7791f;
+            transform: translateY(-2px);
         }
 
         .card {
@@ -112,8 +122,10 @@
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             color: white;
             padding: 1rem 0;
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 1000;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
@@ -218,31 +230,37 @@
             display: none;
             padding: 100px 0 60px;
             min-height: 80vh;
+            animation: fadeIn 0.5s ease;
         }
 
         .page.active {
             display: block;
         }
 
-        /* Hero Section */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Home Page */
         #home-page {
-            background: linear-gradient(135deg, #f0fff4 0%, #e6fffa 100%);
+            background: linear-gradient(135deg, rgba(56, 161, 105, 0.1) 0%, rgba(47, 133, 90, 0.1) 100%);
             position: relative;
             overflow: hidden;
         }
 
-        .hero-content {
+        .hero {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 40px;
             align-items: center;
-            margin-bottom: 60px;
+            padding: 4rem 0;
         }
 
-        .hero-text h1 {
+        .hero-content h1 {
             font-size: 3.5rem;
             font-weight: 800;
-            color: #2d3748;
+            color: var(--dark);
             margin-bottom: 20px;
             line-height: 1.2;
         }
@@ -253,7 +271,18 @@
             display: inline-block;
         }
 
-        .hero-text p {
+        .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: rgba(56, 161, 105, 0.2);
+            z-index: -1;
+        }
+
+        .hero-content p {
             font-size: 1.2rem;
             color: var(--gray);
             margin-bottom: 30px;
@@ -266,27 +295,6 @@
             margin-bottom: 40px;
         }
 
-        .stats-container {
-            display: flex;
-            gap: 30px;
-        }
-
-        .stat {
-            text-align: center;
-        }
-
-        .stat-number {
-            display: block;
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: var(--gray);
-        }
-
         .hero-image {
             position: relative;
             display: flex;
@@ -294,8 +302,8 @@
             align-items: center;
         }
 
-        .main-image {
-            width: 400px;
+        .hero-img-container {
+            width: 100%;
             height: 400px;
             background: linear-gradient(135deg, #c6f6d5 0%, #b2f5ea 100%);
             border-radius: 20px;
@@ -304,147 +312,114 @@
             align-items: center;
             position: relative;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
         }
 
-        .shopping-cart {
-            font-size: 6rem;
+        .hero-img-container:before {
+            content: '';
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="rgba(255,255,255,0.1)" /></svg>');
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hero-emoji {
+            font-size: 8rem;
+            z-index: 2;
             animation: float 3s ease-in-out infinite;
         }
 
-        .featured-categories {
-            text-align: center;
+        .floating-items {
+            position: absolute;
+            width: 100%;
+            height: 100%;
         }
 
-        .categories-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 30px;
+        .floating-item {
+            position: absolute;
+            font-size: 2rem;
+            animation: float 3s ease-in-out infinite;
+            animation-delay: calc(var(--delay) * 1s);
         }
 
-        .category-tag {
-            background: white;
-            padding: 15px;
-            border-radius: 12px;
+        .stats-container {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s ease;
-            cursor: pointer;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 12px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
 
-        .category-tag:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        .stat-number {
+            display: block;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
         }
 
-        .category-icon {
-            font-size: 2rem;
+        .stat-label {
+            font-size: 1rem;
+            color: var(--gray);
         }
 
-        /* Products Section */
-        .products-grid {
+        /* Features Section */
+        .features {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
         }
 
-        .product-card {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
         }
 
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-
-        .product-image {
-            height: 180px;
-            background: linear-gradient(135deg, #e6fffa 0%, #f0fff4 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .feature-icon {
             font-size: 3rem;
-        }
-
-        .product-info {
-            padding: 1.5rem;
-        }
-
-        .product-info h3 {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            color: var(--dark);
-        }
-
-        .vendor {
-            color: var(--gray);
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .price-section {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .current-price {
-            font-size: 1.3rem;
-            font-weight: 700;
+            margin-bottom: 1rem;
             color: var(--primary);
         }
 
-        .original-price {
-            font-size: 1rem;
-            text-decoration: line-through;
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--primary-dark);
+        }
+
+        .feature-card p {
             color: var(--gray);
-        }
-
-        .savings {
-            color: var(--secondary);
-            font-weight: 600;
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
-        }
-
-        .rating {
-            margin-bottom: 1rem;
-        }
-
-        .add-to-cart {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 0.75rem;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            transition: background 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .add-to-cart:hover {
-            background: var(--primary-dark);
+            line-height: 1.6;
         }
 
         /* How It Works Section */
+        .how-it-works {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, rgba(56, 161, 105, 0.05) 0%, rgba(47, 133, 90, 0.05) 100%);
+        }
+
         .steps {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
-            margin-top: 3rem;
         }
 
         .step {
@@ -473,6 +448,11 @@
         }
 
         /* About Section */
+        .about {
+            padding: 5rem 0;
+            background: white;
+        }
+
         .about-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -491,6 +471,166 @@
             line-height: 1.6;
             color: var(--gray);
             margin-bottom: 1.5rem;
+        }
+
+        .about-image {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-image-placeholder {
+            height: 400px;
+            background: linear-gradient(135deg, #c6f6d5 0%, #b2f5ea 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+        }
+
+        /* Products Page */
+        .products-page {
+            padding: 2rem 0;
+        }
+
+        .categories-nav {
+            background: white;
+            padding: 1.5rem 0;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .categories-list {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .category-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 100px;
+        }
+
+        .category-item:hover {
+            background: #f0fff4;
+            transform: translateY(-3px);
+        }
+
+        .category-item.active {
+            background: #38a169;
+            color: white;
+        }
+
+        .category-emoji {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .category-name {
+            font-weight: 500;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image {
+            height: 180px;
+            background: linear-gradient(135deg, #e6fffa 0%, #f0fff4 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--secondary);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .vendor {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .rating {
+            color: #fbbf24;
+            margin-bottom: 0.5rem;
+        }
+
+        .rating span {
+            color: var(--gray);
+            margin-left: 0.5rem;
+        }
+
+        .price-section {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .current-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .original-price {
+            font-size: 1rem;
+            text-decoration: line-through;
+            color: var(--gray);
+        }
+
+        .savings {
+            color: var(--secondary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
         }
 
         /* Auth Forms */
@@ -610,26 +750,6 @@
             color: var(--primary);
         }
 
-        /* Product Form */
-        .product-form {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .form-title {
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            color: var(--dark);
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
         /* Footer */
         footer {
             background: var(--dark);
@@ -703,33 +823,10 @@
 
         /* Responsive Design */
         @media (max-width: 968px) {
-            .hero-content,
-            .about-content {
-                grid-template-columns: 1fr;
-                text-align: center;
+            .menu-toggle {
+                display: block;
             }
-            
-            .hero-text h1 {
-                font-size: 2.8rem;
-            }
-            
-            .stats-container {
-                justify-content: center;
-            }
-            
-            .hero-buttons {
-                justify-content: center;
-            }
-            
-            .main-image {
-                width: 300px;
-                height: 300px;
-            }
-            
-            .shopping-cart {
-                font-size: 4rem;
-            }
-            
+
             .nav {
                 position: fixed;
                 top: 70px;
@@ -745,30 +842,53 @@
                 transition: all 0.3s ease;
                 gap: 0;
             }
-            
+
             .nav-open {
                 transform: translateY(0);
                 opacity: 1;
                 visibility: visible;
             }
-            
+
             .nav a {
                 width: 100%;
                 text-align: center;
                 padding: 1rem;
                 border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             }
-            
+
             .nav a:last-child {
                 border-bottom: none;
             }
-            
-            .menu-toggle {
-                display: block;
+
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-content h1 {
+                font-size: 2.8rem;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .categories-list {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
             }
             
-            .form-row {
-                grid-template-columns: 1fr;
+            .category-item {
+                min-width: 80px;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             }
         }
 
@@ -777,7 +897,7 @@
                 font-size: 2rem;
             }
             
-            .hero-text h1 {
+            .hero-content h1 {
                 font-size: 2.2rem;
             }
             
@@ -787,17 +907,14 @@
             
             .stats-container {
                 flex-wrap: wrap;
-                justify-content: center;
             }
-        }
-
-        /* Animations */
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0);
+            
+            .hero-img-container {
+                height: 300px;
             }
-            50% {
-                transform: translateY(-10px);
+            
+            .hero-emoji {
+                font-size: 5rem;
             }
         }
     </style>
@@ -816,15 +933,15 @@
                 <a href="#" class="nav-link" data-page="products-page">Products</a>
                 <a href="#" class="nav-link" data-page="how-it-works-page">How It Works</a>
                 <a href="#" class="nav-link" data-page="about-page">About</a>
-                <a href="#" class="nav-link" data-page="vendor-dashboard-page" id="vendor-dashboard-link" style="display: none;">Vendor Dashboard</a>
+                <a href="#" class="nav-link" data-page="vendor-login-page" id="vendor-dashboard-link">Vendor Login</a>
             </nav>
 
             <div class="user-actions">
-                <div class="cart-icon" onclick="showPage('cart-page')">
+                <div class="cart-icon" onclick="toggleCart()">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-count">3</span>
                 </div>
-                <button class="btn-secondary" id="auth-button" onclick="showPage('login-page')">Login</button>
+                <button class="btn-secondary" onclick="showPage('login-page')">Login</button>
             </div>
 
             <button class="menu-toggle" id="menuToggle">
@@ -836,83 +953,342 @@
     <!-- Home Page -->
     <section id="home-page" class="page active">
         <div class="container">
-            <div class="hero-content">
-                <div class="hero-text">
+            <div class="hero">
+                <div class="hero-content">
                     <h1>Supermarket Quality at <span class="highlight">Market Prices</span></h1>
                     <p>Get all your groceries and household essentials delivered directly from Nigeria's vibrant open markets to your doorstep. Save money without sacrificing convenience.</p>
                     
                     <div class="hero-buttons">
-                        <button class="btn-primary" onclick="showPage('products-page')">
+                        <a href="#" class="btn btn-primary" onclick="showPage('products-page')">
                             <i class="fas fa-shopping-cart"></i>
-                            Shop Groceries
-                        </button>
-                        <button class="btn-secondary" onclick="showPage('vendor-register-page')">
+                            Shop Now
+                        </a>
+                        <a href="#" class="btn btn-secondary" onclick="showPage('vendor-register-page')">
                             <i class="fas fa-store"></i>
                             Become a Vendor
-                        </button>
-                    </div>
-                    
-                    <div class="stats-container">
-                        <div class="stat">
-                            <span class="stat-number">500+</span>
-                            <span class="stat-label">Vendors</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-number">10,000+</span>
-                            <span class="stat-label">Products</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-number">24/7</span>
-                            <span class="stat-label">Delivery</span>
-                        </div>
+                        </a>
                     </div>
                 </div>
                 
                 <div class="hero-image">
-                    <div class="main-image">
-                        <div class="shopping-cart">🛒</div>
+                    <div class="hero-img-container">
+                        <div class="hero-emoji">🛒</div>
+                        <div class="floating-items">
+                            <span class="floating-item" style="top: 20%; left: 20%; --delay: 0;">🍚</span>
+                            <span class="floating-item" style="top: 30%; right: 20%; --delay: 0.5;">🧴</span>
+                            <span class="floating-item" style="bottom: 20%; left: 30%; --delay: 1;">🥫</span>
+                            <span class="floating-item" style="bottom: 30%; right: 30%; --delay: 1.5;">🧼</span>
+                            <span class="floating-item" style="top: 50%; left: 50%; --delay: 2;">🍶</span>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <div class="featured-categories">
-                <h3>Popular Categories</h3>
-                <div class="categories-grid">
-                    <div class="category-tag" onclick="filterProducts('Rice & Grains')">
-                        <span class="category-icon">🍚</span>
-                        <span class="category-name">Rice & Grains</span>
-                    </div>
-                    <div class="category-tag" onclick="filterProducts('Packaged Goods')">
-                        <span class="category-icon">🛒</span>
-                        <span class="category-name">Packaged Goods</span>
-                    </div>
-                    <div class="category-tag" onclick="filterProducts('Household Items')">
-                        <span class="category-icon">🧴</span>
-                        <span class="category-name">Household Items</span>
-                    </div>
-                    <div class="category-tag" onclick="filterProducts('Canned Foods')">
-                        <span class="category-icon">🥫</span>
-                        <span class="category-name">Canned Foods</span>
-                    </div>
-                    <div class="category-tag" onclick="filterProducts('Toiletries')">
-                        <span class="category-icon">🧼</span>
-                        <span class="category-name">Toiletries</span>
-                    </div>
-                    <div class="category-tag" onclick="filterProducts('Cooking Essentials')">
-                        <span class="category-icon">🍶</span>
-                        <span class="category-name">Cooking Essentials</span>
-                    </div>
+            <div class="stats-container">
+                <div class="stat">
+                    <span class="stat-number">500+</span>
+                    <span class="stat-label">Vendors</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">10,000+</span>
+                    <span class="stat-label">Products</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">24/7</span>
+                    <span class="stat-label">Delivery</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">50%</span>
+                    <span class="stat-label">Average Savings</span>
                 </div>
             </div>
         </div>
+        
+        <!-- Features Section -->
+        <section class="features">
+            <div class="container">
+                <h2 class="section-title">Why Choose E-Sabi Market?</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">💰</div>
+                        <h3>Market Prices</h3>
+                        <p>Get the same low prices as traditional markets without the hassle of haggling or transportation.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🛒</div>
+                        <h3>Wide Selection</h3>
+                        <p>Everything from rice and beans to detergent and cooking oil - all your supermarket needs in one place.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🚚</div>
+                        <h3>Direct Delivery</h3>
+                        <p>From the market stalls directly to your home. Fresh, authentic, and convenient.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🤝</div>
+                        <h3>Trusted Vendors</h3>
+                        <p>All our vendors are verified and rated by the community for quality and reliability.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- How It Works Preview -->
+        <section class="how-it-works">
+            <div class="container">
+                <h2 class="section-title">How It Works</h2>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h3>Browse Products</h3>
+                        <p>Explore a wide range of groceries and household items from trusted vendors.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h3>Place Your Order</h3>
+                        <p>Add items to your cart and proceed to checkout with secure payment options.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h3>Fast Delivery</h3>
+                        <p>Receive your order at your doorstep with our reliable delivery network.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <h3>Enjoy Savings</h3>
+                        <p>Save money while enjoying quality products from local markets.</p>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 3rem;">
+                    <a href="#" class="btn btn-accent" onclick="showPage('how-it-works-page')">
+                        Learn More
+                    </a>
+                </div>
+            </div>
+        </section>
     </section>
 
     <!-- Products Page -->
     <section id="products-page" class="page">
         <div class="container">
-            <h2 class="section-title">Our Products</h2>
-            <div class="products-grid" id="products-container">
-                <!-- Products will be loaded here by JavaScript -->
+            <div class="categories-nav">
+                <h2>Shop by Category</h2>
+                <div class="categories-list">
+                    <div class="category-item active" data-category="all">
+                        <span class="category-emoji">🛒</span>
+                        <span class="category-name">All Products</span>
+                    </div>
+                    <div class="category-item" data-category="rice-grains">
+                        <span class="category-emoji">🍚</span>
+                        <span class="category-name">Rice & Grains</span>
+                    </div>
+                    <div class="category-item" data-category="cooking-oils">
+                        <span class="category-emoji">🫒</span>
+                        <span class="category-name">Cooking Oils</span>
+                    </div>
+                    <div class="category-item" data-category="household-items">
+                        <span class="category-emoji">🧴</span>
+                        <span class="category-name">Household Items</span>
+                    </div>
+                    <div class="category-item" data-category="canned-foods">
+                        <span class="category-emoji">🥫</span>
+                        <span class="category-name">Canned Foods</span>
+                    </div>
+                    <div class="category-item" data-category="toiletries">
+                        <span class="category-emoji">🧼</span>
+                        <span class="category-name">Toiletries</span>
+                    </div>
+                    <div class="category-item" data-category="packaged-goods">
+                        <span class="category-emoji">🍝</span>
+                        <span class="category-name">Packaged Goods</span>
+                    </div>
+                </div>
+            </div>
+            
+            <h2 class="section-title">Featured Products</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        🍚
+                        <span class="featured-badge">Featured</span>
+                    </div>
+                    <div class="product-info">
+                        <h3>Premium Rice (50kg)</h3>
+                        <p class="vendor">By Obi Farms</p>
+                        <div class="rating">
+                            ★★★★★<span>(4.5)</span>
+                        </div>
+                        <div class="price-section">
+                            <span class="current-price">₦35,000</span>
+                            <span class="original-price">₦38,000</span>
+                        </div>
+                        <div class="savings">Save ₦3,000</div>
+                        <button class="auth-button">
+                            <i class="fas fa-cart-plus"></i>
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">
+                        🫒
+                        <span class="featured-badge">Featured</span>
+                    </div>
+                    <div class="product-info">
+                        <h3>Groundnut Oil (5L)</h3>
+                        <p class="vendor">By Natural Oils</p>
+                        <div class="rating">
+                            ★★★★☆<span>(4.2)</span>
+                        </div>
+                        <div class="price-section">
+                            <span class="current-price">₦8,500</span>
+                            <span class="original-price">₦9,200</span>
+                        </div>
+                        <div class="savings">Save ₦700</div>
+                        <button class="auth-button">
+                            <i class="fas fa-cart-plus"></i>
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">
+                        🧴
+                        <span class="featured-badge">Featured</span>
+                    </div>
+                    <div class="product-info">
+                        <h3>Detergent (Large)</h3>
+                        <p class="vendor">By Clean Home</p>
+                        <div class="rating">
+                            ★★★★☆<span>(4.3)</span>
+                        </div>
+                        <div class="price-section">
+                            <span class="current-price">₦4,200</span>
+                            <span class="original-price">₦4,800</span>
+                        </div>
+                        <div class="savings">Save ₦600</div>
+                        <button class="auth-button">
+                            <i class="fas fa-cart-plus"></i>
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">
+                        🥫
+                        <span class="featured-badge">Featured</span>
+                    </div>
+                    <div class="product-info">
+                        <h3>Tomato Paste (Crate)</h3>
+                        <p class="vendor">By Fresh Foods</p>
+                        <div class="rating">
+                            ★★★★★<span>(4.7)</span>
+                        </div>
+                        <div class="price-section">
+                            <span class="current-price">₦12,000</span>
+                            <span class="original-price">₦13,500</span>
+                        </div>
+                        <div class="savings">Save ₦1,500</div>
+                        <button class="auth-button">
+                            <i class="fas fa-cart-plus"></i>
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">
+                        🧼
+                    </div>
+                    <div class="product-info">
+                        <h3>Bath Soap (Pack of 10)</h3>
+                        <p class="vendor">By Clean Body</p>
+                        <div class="rating">
+                            ★★★★☆<span>(4.1)</span>
+                        </div>
+                        <div class="price-section">
+                            <span class="current-price">₦2,500</span>
+                            <span class="original-price">₦3,000</span>
+                        </div>
+                        <div class="savings">Save ₦500</div>
+                        <button class="auth-button">
+                            <i class="fas fa-cart-plus"></i>
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">
+                        🍝
+                    </div>
+                    <div class="product-info">
+                        <h3>Spaghetti (Carton)</h3>
+                        <p class="vendor">By Pasta King</p>
+                        <div class="rating">
+                            ★★★★☆<span>(4.4)</span>
+                        </div>
+                        <div class="price-section">
+                            <span class="current-price">₦8,500</span>
+                            <span class="original-price">₦9,500</span>
+                        </div>
+                        <div class="savings">Save ₦1,000</div>
+                        <button class="auth-button">
+                            <i class="fas fa-cart-plus"></i>
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">
+                        🫘
+                    </div>
+                    <div class="product-info">
+                        <h3>Beans (50kg)</h3>
+                        <p class="vendor">By Obi Farms</p>
+                        <div class="rating">
+                            ★★★★☆<span>(4.6)</span>
+                        </div>
+                        <div class="price-section">
+                            <span class="current-price">₦28,000</span>
+                            <span class="original-price">₦32,000</span>
+                        </div>
+                        <div class="savings">Save ₦4,000</div>
+                        <button class="auth-button">
+                            <i class="fas fa-cart-plus"></i>
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">
+                        🫒
+                    </div>
+                    <div class="product-info">
+                        <h3>Palm Oil (5L)</h3>
+                        <p class="vendor">By Natural Oils</p>
+                        <div class="rating">
+                            ★★★★☆<span>(4.0)</span>
+                        </div>
+                        <div class="price-section">
+                            <span class="current-price">₦7,500</span>
+                            <span class="original-price">₦8,500</span>
+                        </div>
+                        <div class="savings">Save ₦1,000</div>
+                        <button class="auth-button">
+                            <i class="fas fa-cart-plus"></i>
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -920,27 +1296,64 @@
     <!-- How It Works Page -->
     <section id="how-it-works-page" class="page">
         <div class="container">
-            <h2 class="section-title">How It Works</h2>
+            <h2 class="section-title">How E-Sabi Market Works</h2>
             <div class="steps">
                 <div class="step">
                     <div class="step-number">1</div>
                     <h3>Browse Products</h3>
-                    <p>Explore a wide range of groceries and household items from trusted vendors.</p>
+                    <p>Explore our wide range of groceries and household items from trusted vendors. Filter by category, price, or rating to find exactly what you need.</p>
                 </div>
                 <div class="step">
                     <div class="step-number">2</div>
                     <h3>Place Your Order</h3>
-                    <p>Add items to your cart and proceed to checkout with secure payment options.</p>
+                    <p>Add items to your cart and proceed to checkout with our secure payment system. We accept multiple payment methods for your convenience.</p>
                 </div>
                 <div class="step">
                     <div class="step-number">3</div>
                     <h3>Fast Delivery</h3>
-                    <p>Receive your order at your doorstep with our reliable delivery network.</p>
+                    <p>Our reliable delivery network ensures your order reaches your doorstep quickly and in perfect condition. Track your order in real-time.</p>
                 </div>
                 <div class="step">
                     <div class="step-number">4</div>
                     <h3>Enjoy Savings</h3>
-                    <p>Save money while enjoying quality products from local markets.</p>
+                    <p>Save significantly compared to supermarket prices while enjoying the same quality products. Share your experience and help others save too!</p>
+                </div>
+            </div>
+            
+            <div class="features" style="background: transparent; padding: 3rem 0;">
+                <div class="container">
+                    <h2 class="section-title">For Vendors</h2>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">📈</div>
+                            <h3>Increase Your Reach</h3>
+                            <p>Connect with thousands of customers beyond your local market area and significantly grow your business.</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">💰</div>
+                            <h3>Boost Your Sales</h3>
+                            <p>Reduce spoilage and increase turnover by reaching more customers consistently through our platform.</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">🛡️</div>
+                            <h3>Secure Payments</h3>
+                            <p>Receive prompt and secure payments for your products without the hassle of manual transactions.</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">📊</div>
+                            <h3>Business Insights</h3>
+                            <p>Access valuable data and analytics about your sales performance and customer preferences.</p>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin-top: 3rem;">
+                        <a href="#" class="btn btn-primary" onclick="showPage('vendor-register-page')">
+                            <i class="fas fa-store"></i>
+                            Become a Vendor
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -955,16 +1368,47 @@
                     <h2>Connecting Traditional Markets to Modern Consumers</h2>
                     <p>E-Sabi Market is a digital platform designed to bridge the gap between traditional open markets and the modern digital economy. We bring the vibrant experience of Nigerian open markets to your fingertips.</p>
                     <p>Our mission is to empower local vendors while providing customers with unprecedented access to fresh, affordable produce from the comfort of their homes.</p>
+                    <p>Founded in 2023, we're committed to revolutionizing how Nigerians access market goods while supporting local businesses and reducing food waste.</p>
                     <div class="hero-buttons">
-                        <button class="btn-primary" onclick="showPage('vendor-register-page')">Join as Vendor</button>
+                        <a href="#" class="btn btn-primary" onclick="showPage('vendor-register-page')">
+                            <i class="fas fa-store"></i>
+                            Join as Vendor
+                        </a>
                     </div>
                 </div>
                 <div class="about-image">
-                    <div class="card" style="padding: 0; overflow: hidden;">
-                        <div style="background: linear-gradient(135deg, #c6f6d5 0%, #b2f5ea 100%); height: 300px; display: flex; align-items: center; justify-content: center; font-size: 5rem;">🛒</div>
-                        <div style="padding: 1.5rem;">
-                            <h3>Our Vision</h3>
-                            <p>To revolutionize how Nigerians access market goods while supporting local vendors and reducing food waste.</p>
+                    <div class="about-image-placeholder">
+                        🛒
+                    </div>
+                </div>
+            </div>
+            
+            <div class="features" style="background: transparent; padding: 3rem 0;">
+                <div class="container">
+                    <h2 class="section-title">Our Values</h2>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">🤝</div>
+                            <h3>Trust</h3>
+                            <p>We build trust through transparency, quality assurance, and reliable service for both customers and vendors.</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">🌱</div>
+                            <h3>Sustainability</h3>
+                            <p>We're committed to reducing food waste and supporting sustainable practices in the market ecosystem.</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">🏘️</div>
+                            <h3>Community</h3>
+                            <p>We strengthen local communities by connecting vendors with customers and creating economic opportunities.</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">🚀</div>
+                            <h3>Innovation</h3>
+                            <p>We continuously innovate to improve the market experience for everyone involved.</p>
                         </div>
                     </div>
                 </div>
@@ -1090,11 +1534,11 @@
                             <select id="vendor-category" required>
                                 <option value="">Select category</option>
                                 <option value="Rice & Grains">Rice & Grains</option>
-                                <option value="Packaged Goods">Packaged Goods</option>
+                                <option value="Cooking Oils">Cooking Oils</option>
                                 <option value="Household Items">Household Items</option>
                                 <option value="Canned Foods">Canned Foods</option>
                                 <option value="Toiletries">Toiletries</option>
-                                <option value="Cooking Essentials">Cooking Essentials</option>
+                                <option value="Packaged Goods">Packaged Goods</option>
                             </select>
                         </div>
                         <button type="submit" class="auth-button">Register Business</button>
@@ -1112,7 +1556,7 @@
         <div class="container">
             <div class="dashboard-header">
                 <h2>Vendor Dashboard</h2>
-                <button class="btn-primary" onclick="showPage('vendor-add-product-page')">
+                <button class="btn btn-primary">
                     <i class="fas fa-plus"></i>
                     Add New Product
                 </button>
@@ -1121,71 +1565,59 @@
             <div class="dashboard-cards">
                 <div class="dashboard-card">
                     <h3>Total Products</h3>
-                    <div class="value" id="vendor-product-count">0</div>
+                    <div class="value">42</div>
                 </div>
                 <div class="dashboard-card">
                     <h3>Orders Today</h3>
-                    <div class="value">0</div>
+                    <div class="value">18</div>
                 </div>
                 <div class="dashboard-card">
                     <h3>Total Revenue</h3>
-                    <div class="value">₦0</div>
+                    <div class="value">₦258,400</div>
                 </div>
                 <div class="dashboard-card">
                     <h3>Customer Rating</h3>
-                    <div class="value">0/5</div>
+                    <div class="value">4.8/5</div>
                 </div>
             </div>
             
             <div class="card">
-                <h3>Your Products</h3>
-                <div class="products-grid" id="vendor-products-container">
-                    <!-- Vendor's products will be loaded here -->
+                <h3>Recent Orders</h3>
+                <div class="products-grid">
+                    <div class="product-card">
+                        <div class="product-image">
+                            🍚
+                        </div>
+                        <div class="product-info">
+                            <h3>Premium Rice (50kg)</h3>
+                            <p class="vendor">3 orders today</p>
+                            <div class="price-section">
+                                <span class="current-price">₦35,000</span>
+                            </div>
+                            <button class="auth-button">
+                                <i class="fas fa-edit"></i>
+                                Manage Product
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="product-image">
+                            🫒
+                        </div>
+                        <div class="product-info">
+                            <h3>Groundnut Oil (5L)</h3>
+                            <p class="vendor">5 orders today</p>
+                            <div class="price-section">
+                                <span class="current-price">₦8,500</span>
+                            </div>
+                            <button class="auth-button">
+                                <i class="fas fa-edit"></i>
+                                Manage Product
+                            </button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Vendor Add Product Page -->
-    <section id="vendor-add-product-page" class="page">
-        <div class="container">
-            <div class="product-form">
-                <h2 class="form-title">Add New Product</h2>
-                <form id="add-product-form">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="product-name">Product Name</label>
-                            <input type="text" id="product-name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="product-price">Price (₦)</label>
-                            <input type="number" id="product-price" required>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="product-category">Category</label>
-                            <select id="product-category" required>
-                                <option value="">Select category</option>
-                                <option value="Rice & Grains">Rice & Grains</option>
-                                <option value="Packaged Goods">Packaged Goods</option>
-                                <option value="Household Items">Household Items</option>
-                                <option value="Canned Foods">Canned Foods</option>
-                                <option value="Toiletries">Toiletries</option>
-                                <option value="Cooking Essentials">Cooking Essentials</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="product-emoji">Product Emoji</label>
-                            <input type="text" id="product-emoji" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="product-description">Description</label>
-                        <textarea id="product-description" required></textarea>
-                    </div>
-                    <button type="submit" class="auth-button">Add Product</button>
-                </form>
             </div>
         </div>
     </section>
@@ -1228,91 +1660,18 @@
     </footer>
 
     <script>
-        // Sample product data
-        const products = [
-            {
-                id: 1,
-                name: "Premium Rice (50kg)",
-                price: 35000,
-                marketPrice: 38000,
-                category: "Rice & Grains",
-                vendor: "Obi Farms",
-                rating: 4.5,
-                image: "🍚",
-                description: "High quality long grain rice"
-            },
-            {
-                id: 2,
-                name: "Groundnut Oil (5L)",
-                price: 8500,
-                marketPrice: 9200,
-                category: "Cooking Essentials",
-                vendor: "Natural Oils",
-                rating: 4.2,
-                image: "🫒",
-                description: "Pure groundnut oil for cooking"
-            },
-            {
-                id: 3,
-                name: "Detergent (Large)",
-                price: 4200,
-                marketPrice: 4800,
-                category: "Household Items",
-                vendor: "Clean Home",
-                rating: 4.3,
-                image: "🧴",
-                description: "Powerful detergent for all your cleaning needs"
-            },
-            {
-                id: 4,
-                name: "Tomato Paste (Crate)",
-                price: 12000,
-                marketPrice: 13500,
-                category: "Canned Foods",
-                vendor: "Fresh Foods",
-                rating: 4.7,
-                image: "🥫",
-                description: "Rich tomato paste for delicious meals"
-            },
-            {
-                id: 5,
-                name: "Bath Soap (Pack of 10)",
-                price: 2500,
-                marketPrice: 3000,
-                category: "Toiletries",
-                vendor: "Clean Body",
-                rating: 4.1,
-                image: "🧼",
-                description: "Gentle on skin soap for daily use"
-            },
-            {
-                id: 6,
-                name: "Spaghetti (Carton)",
-                price: 8500,
-                marketPrice: 9500,
-                category: "Packaged Goods",
-                vendor: "Pasta King",
-                rating: 4.4,
-                image: "🍝",
-                description: "Quality spaghetti for your favorite dishes"
-            }
-        ];
-
-        // Vendor products (initially empty)
-        let vendorProducts = [];
-
-        // DOM Elements
-        const pages = document.querySelectorAll('.page');
-        const navLinks = document.querySelectorAll('.nav-link');
+        // Mobile menu toggle
         const menuToggle = document.getElementById('menuToggle');
         const mainNav = document.getElementById('mainNav');
-        const productsContainer = document.getElementById('products-container');
-        const vendorProductsContainer = document.getElementById('vendor-products-container');
-        const vendorProductCount = document.getElementById('vendor-product-count');
-        const authButton = document.getElementById('auth-button');
-        const vendorDashboardLink = document.getElementById('vendor-dashboard-link');
-
-        // Show specific page and hide others
+        
+        menuToggle.addEventListener('click', () => {
+            mainNav.classList.toggle('nav-open');
+        });
+        
+        // Page navigation
+        const pages = document.querySelectorAll('.page');
+        const navLinks = document.querySelectorAll('.nav-link');
+        
         function showPage(pageId) {
             pages.forEach(page => {
                 page.classList.remove('active');
@@ -1327,166 +1686,82 @@
                 }
             });
             
-            // If showing products page, render products
-            if (pageId === 'products-page') {
-                renderProducts(products);
-            }
-            
-            // If showing vendor dashboard, render vendor products
-            if (pageId === 'vendor-dashboard-page') {
-                renderVendorProducts();
-            }
-            
             // Close mobile menu if open
             mainNav.classList.remove('nav-open');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
         }
-
-        // Render products to the products page
-        function renderProducts(productsArray) {
-            productsContainer.innerHTML = '';
-            
-            if (productsArray.length === 0) {
-                productsContainer.innerHTML = '<p class="text-center">No products found in this category.</p>';
-                return;
-            }
-            
-            productsArray.forEach(product => {
-                const productCard = document.createElement('div');
-                productCard.className = 'product-card';
-                productCard.innerHTML = `
-                    <div class="product-image">${product.image}</div>
-                    <div class="product-info">
-                        <h3>${product.name}</h3>
-                        <p class="vendor">By ${product.vendor}</p>
-                        <div class="price-section">
-                            <span class="current-price">₦${product.price.toLocaleString()}</span>
-                            <span class="original-price">₦${product.marketPrice.toLocaleString()}</span>
-                        </div>
-                        <div class="savings">Save ₦${(product.marketPrice - product.price).toLocaleString()}</div>
-                        <div class="rating">${'⭐'.repeat(Math.floor(product.rating))}${product.rating % 1 ? '½' : ''}</div>
-                        <button class="add-to-cart">
-                            <i class="fas fa-cart-plus"></i>
-                            Add to Cart
-                        </button>
-                    </div>
-                `;
-                productsContainer.appendChild(productCard);
+        
+        // Set up event listeners for navigation
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                showPage(link.dataset.page);
             });
-        }
-
-        // Render vendor products to the vendor dashboard
-        function renderVendorProducts() {
-            vendorProductsContainer.innerHTML = '';
-            vendorProductCount.textContent = vendorProducts.length;
-            
-            if (vendorProducts.length === 0) {
-                vendorProductsContainer.innerHTML = '<p class="text-center">You haven\'t added any products yet.</p>';
-                return;
-            }
-            
-            vendorProducts.forEach(product => {
-                const productCard = document.createElement('div');
-                productCard.className = 'product-card';
-                productCard.innerHTML = `
-                    <div class="product-image">${product.image}</div>
-                    <div class="product-info">
-                        <h3>${product.name}</h3>
-                        <p class="vendor">Category: ${product.category}</p>
-                        <div class="price-section">
-                            <span class="current-price">₦${product.price.toLocaleString()}</span>
-                        </div>
-                        <div class="rating">${'⭐'.repeat(Math.floor(product.rating))}${product.rating % 1 ? '½' : ''}</div>
-                        <button class="add-to-cart">
-                            <i class="fas fa-edit"></i>
-                            Edit Product
-                        </button>
-                    </div>
-                `;
-                vendorProductsContainer.appendChild(productCard);
+        });
+        
+        // Category selection
+        const categoryItems = document.querySelectorAll('.category-item');
+        categoryItems.forEach(item => {
+            item.addEventListener('click', () => {
+                categoryItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                // Here you would filter products based on category
             });
-        }
-
-        // Filter products by category
-        function filterProducts(category) {
-            const filteredProducts = products.filter(product => product.category === category);
-            showPage('products-page');
-            renderProducts(filteredProducts);
-        }
-
+        });
+        
+        // Form submissions
+        document.getElementById('login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Login functionality would be implemented with backend');
+        });
+        
+        document.getElementById('register-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Registration functionality would be implemented with backend');
+        });
+        
+        document.getElementById('vendor-login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Simulate successful vendor login
+            document.getElementById('vendor-dashboard-link').textContent = 'Vendor Dashboard';
+            showPage('vendor-dashboard-page');
+        });
+        
+        document.getElementById('vendor-register-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Vendor registration would be implemented with backend');
+            showPage('vendor-login-page');
+        });
+        
+        // Add to cart functionality
+        const addToCartButtons = document.querySelectorAll('.auth-button');
+        const cartCount = document.querySelector('.cart-count');
+        let cartItems = 3; // Initial count
+        
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                if (button.closest('.product-card')) {
+                    cartItems++;
+                    cartCount.textContent = cartItems;
+                    
+                    // Show confirmation
+                    const originalText = button.innerHTML;
+                    button.innerHTML = '<i class="fas fa-check"></i> Added to Cart';
+                    button.style.background = '#38a169';
+                    
+                    // Reset after 2 seconds
+                    setTimeout(() => {
+                        button.innerHTML = originalText;
+                        button.style.background = '';
+                    }, 2000);
+                }
+            });
+        });
+        
         // Initialize the page
-        function init() {
-            // Set up event listeners
-            menuToggle.addEventListener('click', () => {
-                mainNav.classList.toggle('nav-open');
-            });
-            
-            navLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    showPage(link.dataset.page);
-                });
-            });
-            
-            // Login form submission
-            document.getElementById('login-form').addEventListener('submit', (e) => {
-                e.preventDefault();
-                alert('Login functionality would be implemented here!');
-                showPage('home-page');
-            });
-            
-            // Register form submission
-            document.getElementById('register-form').addEventListener('submit', (e) => {
-                e.preventDefault();
-                alert('Registration functionality would be implemented here!');
-                showPage('home-page');
-            });
-            
-            // Vendor login form submission
-            document.getElementById('vendor-login-form').addEventListener('submit', (e) => {
-                e.preventDefault();
-                // Simulate successful login
-                authButton.textContent = 'Logout';
-                vendorDashboardLink.style.display = 'block';
-                showPage('vendor-dashboard-page');
-            });
-            
-            // Vendor registration form submission
-            document.getElementById('vendor-register-form').addEventListener('submit', (e) => {
-                e.preventDefault();
-                alert('Vendor registration would be implemented here!');
-                showPage('vendor-login-page');
-            });
-            
-            // Add product form submission
-            document.getElementById('add-product-form').addEventListener('submit', (e) => {
-                e.preventDefault();
-                
-                const newProduct = {
-                    id: vendorProducts.length + 1,
-                    name: document.getElementById('product-name').value,
-                    price: parseInt(document.getElementById('product-price').value),
-                    category: document.getElementById('product-category').value,
-                    image: document.getElementById('product-emoji').value,
-                    description: document.getElementById('product-description').value,
-                    vendor: "Your Business",
-                    rating: 4.5,
-                    marketPrice: parseInt(document.getElementById('product-price').value) * 1.1
-                };
-                
-                vendorProducts.push(newProduct);
-                products.push(newProduct);
-                
-                alert('Product added successfully!');
-                document.getElementById('add-product-form').reset();
-                showPage('vendor-dashboard-page');
-            });
-            
-            // Show home page by default
-            showPage('home-page');
-        }
-
-        // Run initialization when DOM is loaded
-        document.addEventListener('DOMContentLoaded', init);
+        showPage('home-page');
     </script>
 </body>
 </html>
